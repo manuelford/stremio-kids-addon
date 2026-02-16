@@ -1,0 +1,12 @@
+services:
+  - type: web
+    runtime: node
+    name: stremio-kids-addon
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: TMDB_API_TOKEN
+        sync: false
+      - key: PORT
+        value: 10000
