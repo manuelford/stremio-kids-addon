@@ -1,0 +1,17 @@
+{
+  "name": "stremio-kids-addon",
+  "version": "1.0.0",
+  "description": "Stremio addon that shows only children-appropriate content (G, PG, TV-Y, TV-G rated)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "stremio-addon-sdk": "^1.6.10",
+    "node-fetch": "^2.7.0",
+    "dotenv": "^16.4.5"
+  },
+  "engines": {
+    "node": ">=14"
+  }
+}
