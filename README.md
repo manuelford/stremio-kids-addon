@@ -2,6 +2,16 @@
 
 A Stremio addon that provides age-appropriate movie and TV show catalogs for children. Instead of scrolling through an endless mix of content, your kids get curated catalogs organized by age group — all powered by real MPAA and TV Parental Guidelines ratings.
 
+## Install
+
+**[Click here to install in Stremio](https://stremio-kids-addon.onrender.com/manifest.json)** or paste this URL in Stremio's addon search bar:
+
+```
+https://stremio-kids-addon.onrender.com/manifest.json
+```
+
+> The free instance spins down after inactivity. The first request after a cold start may take ~30 seconds.
+
 ## What it does
 
 This addon adds **8 catalogs** to Stremio, organized into four age brackets:
@@ -30,17 +40,9 @@ This addon provides **catalogs and metadata only**. It does not provide streams 
 
 It also **does not block** other content in Stremio. Your existing catalogs and addons remain accessible. This is a limitation of the Stremio addon system — addons can add content but cannot restrict the interface.
 
-## Installation
+## Self-hosted installation
 
-### From a hosted instance
-
-Install directly in Stremio using the addon URL:
-
-```
-https://your-hosted-url/manifest.json
-```
-
-### Self-hosted
+If you want to run your own instance:
 
 1. Clone the repository:
    ```bash
@@ -93,13 +95,16 @@ https://your-hosted-url/manifest.json
 
 ## Deployment
 
-The addon runs as a standard Node.js HTTP server. Deploy it anywhere that supports Node:
+The public instance runs on [Render](https://render.com) (free tier). To deploy your own:
 
-- **Render / Railway / Fly.io** — free tiers available, set `TMDB_API_TOKEN` as an environment variable
-- **Any VPS** — run with `npm start` behind a reverse proxy with HTTPS
-- **Beamup** — Stremio's free addon hosting
+1. Fork this repo
+2. Create a new **Web Service** on Render, connect your fork
+3. Set `TMDB_API_TOKEN` as an environment variable
+4. Select the **Free** plan and deploy
 
-For public installations, HTTPS is required (Stremio rejects non-HTTPS addon URLs except localhost).
+Other options: Railway, Fly.io, any VPS with Node.js behind HTTPS, or Stremio's Beamup hosting.
+
+HTTPS is required — Stremio rejects non-HTTPS addon URLs except on localhost.
 
 ## License
 
