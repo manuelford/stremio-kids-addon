@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kids Content — Stremio Addon</title>
+    <link rel="icon" href="/public/favicon.svg" type="image/svg+xml">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f0f23;
+            color: #e2e2f0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated gradient background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(108, 92, 231, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(0, 184, 148, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 80%, rgba(225, 112, 85, 0.08) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ─── Hero ─── */
+        .hero {
+            text-align: center;
+            padding: 64px 0 48px;
+        }
+
+        .hero-icon {
+            font-size: 56px;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .hero h1 {
+            font-size: 40px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .hero .version {
+            font-size: 14px;
+            color: #8888aa;
+            margin-bottom: 16px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #b0b0cc;
+            max-width: 520px;
+            margin: 0 auto 32px;
+        }
+
+        .install-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #6C5CE7, #a855f7);
+            color: #fff;
+            font-size: 18px;
+            font-weight: 700;
+            padding: 16px 48px;
+            border-radius: 12px;
+            text-decoration: none;
+            transition: transform 0.15s, box-shadow 0.15s;
+            box-shadow: 0 4px 24px rgba(108, 92, 231, 0.4);
+        }
+
+        .install-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(108, 92, 231, 0.5);
+        }
+
+        .install-btn:active {
+            transform: translateY(0);
+        }
+
+        .install-hint {
+            margin-top: 12px;
+            font-size: 13px;
+            color: #6a6a88;
+        }
+
+        .install-hint code {
+            background: rgba(255,255,255,0.06);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            user-select: all;
+        }
+
+        /* ─── Age Cards ─── */
+        .section-title {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #6a6a88;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .age-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 48px;
+        }
+
+        .age-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            padding: 24px;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .age-card:hover {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .age-card .badge {
+            display: inline-block;
+            font-size: 13px;
+            font-weight: 800;
+            padding: 4px 12px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .age-card h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+
+        .age-card p {
+            font-size: 13px;
+            line-height: 1.5;
+            color: #8888aa;
+        }
+
+        .age-card .ratings {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #6a6a88;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+        }
+
+        .age-0 .badge { background: rgba(0, 184, 148, 0.15); color: #00b894; }
+        .age-6 .badge { background: rgba(9, 132, 227, 0.15); color: #74b9ff; }
+        .age-9 .badge { background: rgba(108, 92, 231, 0.15); color: #a29bfe; }
+        .age-12 .badge { background: rgba(225, 112, 85, 0.15); color: #e17055; }
+
+        /* ─── Features ─── */
+        .features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 48px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            font-size: 14px;
+            color: #b0b0cc;
+        }
+
+        .feature .icon {
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        /* ─── Note ─── */
+        .note {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            margin-bottom: 48px;
+        }
+
+        .note p {
+            font-size: 13px;
+            color: #6a6a88;
+            line-height: 1.6;
+        }
+
+        /* ─── Footer ─── */
+        footer {
+            text-align: center;
+            padding: 32px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        footer a {
+            color: #6a6a88;
+            text-decoration: none;
+            font-size: 13px;
+            margin: 0 12px;
+            transition: color 0.2s;
+        }
+
+        footer a:hover { color: #b0b0cc; }
+
+        /* ─── Responsive ─── */
+        @media (max-width: 540px) {
+            .hero h1 { font-size: 32px; }
+            .hero p { font-size: 16px; }
+            .age-grid { grid-template-columns: 1fr; }
+            .features { grid-template-columns: 1fr; }
+            .install-btn { padding: 14px 36px; font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- Hero -->
+        <section class="hero">
+            <span class="hero-icon">🛡️</span>
+            <h1>Kids Content</h1>
+            <div class="version">v1.1.0</div>
+            <p>Age-appropriate movies and TV shows for your kids. Four age groups, real ratings, zero horror.</p>
+            <a id="installLink" class="install-btn" href="#">Install in Stremio</a>
+            <div class="install-hint">
+                or paste: <code id="manifestUrl"></code>
+            </div>
+        </section>
+
+        <!-- Age Groups -->
+        <div class="section-title">Age Groups</div>
+        <div class="age-grid">
+            <div class="age-card age-0">
+                <span class="badge">0+</span>
+                <h3>Toddler &amp; Preschool</h3>
+                <p>Animation and family content for the youngest viewers.</p>
+                <div class="ratings">G · TV-Y</div>
+            </div>
+            <div class="age-card age-6">
+                <span class="badge">6+</span>
+                <h3>Young Kids</h3>
+                <p>Family-friendly films and shows with gentle themes.</p>
+                <div class="ratings">G · PG · TV-Y · TV-Y7 · TV-G</div>
+            </div>
+            <div class="age-card age-9">
+                <span class="badge">9+</span>
+                <h3>Older Kids</h3>
+                <p>Adventure, fantasy, and comedy for growing imaginations.</p>
+                <div class="ratings">G · PG · TV-Y — TV-PG</div>
+            </div>
+            <div class="age-card age-12">
+                <span class="badge">12+</span>
+                <h3>Pre-Teen</h3>
+                <p>Broader selection with all genres except horror.</p>
+                <div class="ratings">G — PG-13 · TV-Y — TV-14</div>
+            </div>
+        </div>
+
+        <!-- Features -->
+        <div class="section-title">How it works</div>
+        <div class="features">
+            <div class="feature">
+                <span class="icon">✅</span>
+                <span>Official MPAA &amp; TV ratings</span>
+            </div>
+            <div class="feature">
+                <span class="icon">🚫</span>
+                <span>Horror excluded, all ages</span>
+            </div>
+            <div class="feature">
+                <span class="icon">🔍</span>
+                <span>Search &amp; genre filters</span>
+            </div>
+            <div class="feature">
+                <span class="icon">🎬</span>
+                <span>8 curated catalogs</span>
+            </div>
+            <div class="feature">
+                <span class="icon">📺</span>
+                <span>Movies &amp; TV series</span>
+            </div>
+            <div class="feature">
+                <span class="icon">🔄</span>
+                <span>Updated automatically</span>
+            </div>
+        </div>
+
+        <!-- Note -->
+        <div class="note">
+            <p>This addon adds catalogs only — streams come from your existing addons (Torrentio, etc.).<br>It does not block other content in Stremio.</p>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <a href="https://github.com/manuelford/stremio-kids-addon">GitHub</a>
+            <a href="mailto:hola@manuelford.com">Contact</a>
+        </footer>
+    </div>
+
+    <script>
+        const host = window.location.host;
+        const manifestPath = host + '/manifest.json';
+        document.getElementById('installLink').href = 'stremio://' + manifestPath;
+        document.getElementById('manifestUrl').textContent = 'https://' + manifestPath;
+    </script>
+</body>
+</html>
